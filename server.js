@@ -5,10 +5,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();
-app.use(cors());
-app.use(express.json());
-
 const PORT = process.env.PORT || 3000;
+
+// ✅ CORS: Allow only your Netlify frontend
+app.use(cors({
+  origin: ["https://greenclubform.netlify.app"],
+  methods: ["GET", "POST"],
+}));
+
+app.use(express.json());
 
 // ✉️ Email transporter
 const transporter = nodemailer.createTransport({
@@ -23,6 +28,13 @@ const transporter = nodemailer.createTransport({
 app.post("/send-email", async (req, res) => {
   try {
     const data = req.body;
+
+    if (!data.fullName || !data.email || !data.motivation) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields (name, email, or motivation).",
+      });
+    }
 
     const htmlBody = `
       <h2>🌿 New Green Club Application</h2>
@@ -47,35 +59,30 @@ app.post("/send-email", async (req, res) => {
       html: htmlBody,
     };
 
-   try {
-  const info = await transporter.sendMail(mailOptions);
+    // ✉️ Send Email
+    const info = await transporter.sendMail(mailOptions);
 
-  // 📨 Log the email delivery details in backend console
-  console.log("✅ Email sent successfully!");
-  console.log("📨 Message ID:", info.messageId);
-  console.log("📤 Response:", info.response);
-  console.log("📬 Envelope:", info.envelope);
-  console.log("📧 Accepted:", info.accepted);
-  console.log("🚫 Rejected:", info.rejected);
+    // 📨 Log delivery details in backend console
+    console.log("✅ Email sent successfully!");
+    console.log("📨 Message ID:", info.messageId);
+    console.log("📤 Response:", info.response);
+    console.log("📬 Envelope:", info.envelope);
+    console.log("📧 Accepted:", info.accepted);
+    console.log("🚫 Rejected:", info.rejected);
 
-  res.status(200).json({ success: true });
-} catch (error) {
-  console.error("❌ Failed to send email:", error);
-  res.status(500).json({ success: false, message: "Failed to send email" });
-}
+    return res.status(200).json({ success: true, message: "Email sent successfully" });
 
   } catch (error) {
     console.error("❌ Email sending failed:", error);
-    res.status(500).json({ success: false, message: "Failed to send email" });
+    return res.status(500).json({ success: false, message: "Failed to send email." });
   }
 });
 
-// 🟢 Health check
+// 🟢 Health check route
 app.get("/", (req, res) => {
   res.send("✅ Green Club API is running!");
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
