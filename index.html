@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Green Club Recruitment 🌿</title>
+    <style>
+        :root {
+            --bg-img: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80");
+            --text: #1e3c2a;
+            --muted: #4b6f56;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --input-bg: #ffffff;
+            --input-border: #cfe6d8;
+            --accent-1: #2d5a3d;
+            --accent-2: #4caf50;
+        }
+
+        body.dark {
+            --text: #dff3e6;
+            --muted: #9ccaa6;
+            --card-bg: rgba(8, 20, 14, 0.9);
+            --input-bg: #111b15;
+            --input-border: #234c36;
+            --accent-1: #1b3b2d;
+            --accent-2: #27824f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: var(--bg-img) center/cover no-repeat fixed;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 30, 18, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--accent-2);
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .section-title {
+            margin: 25px 0 10px;
+            font-size: 20px;
+            color: var(--accent-1);
+            border-bottom: 2px solid var(--accent-2);
+            padding-bottom: 4px;
+        }
+
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 2px solid var(--input-border);
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-2);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .theme-toggle {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .theme-toggle button {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .theme-toggle button:hover {
+            opacity: 0.9;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.5);
+        }
+
+        .msg {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .msg.success {
+            background: #e8f5e9;
+            border: 2px solid #81c784;
+            color: #2e7d32;
+        }
+
+        .msg.error {
+            background: #ffebee;
+            border: 2px solid #ef5350;
+            color: #c62828;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="theme-toggle">
+            <button id="themeToggle">🌙 Dark Mode</button>
+        </div>
+
+        <div class="card">
+            <div class="header">
+                <h1>Join the Green Club 🌿</h1>
+                <p>Become part of an eco-conscious community working to make the planet greener.</p>
+            </div>
+
+            <form id="recruitmentForm">
+                <h3 class="section-title">📇 Personal Information</h3>
+
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required>
+
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+
+                <label for="institution">Institution / Organization</label>
+                <input type="text" id="institution" name="institution">
+
+                <h3 class="section-title">🎯 Preferences</h3>
+
+                <label for="team">Preferred Team *</label>
+                <select id="team" name="team" required>
+                    <option value="">Select a team</option>
+                    <option value="Conservation & Wildlife">Conservation & Wildlife</option>
+                    <option value="Sustainability Initiatives">Sustainability Initiatives</option>
+                    <option value="Environmental Education">Environmental Education</option>
+                    <option value="Climate Advocacy">Climate Advocacy</option>
+                    <option value="Community Outreach">Community Outreach</option>
+                    <option value="Research & Data">Research & Data</option>
+                </select>
+
+                <label for="experience">Experience Level *</label>
+                <select id="experience" name="experience" required>
+                    <option value="">Select experience</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+
+                <label for="motivation">Why do you want to join? (min 50 chars) *</label>
+                <textarea id="motivation" name="motivation" required></textarea>
+
+                <label for="availability">Weekly Time Commitment *</label>
+                <select id="availability" name="availability" required>
+                    <option value="">Select availability</option>
+                    <option value="1-3">1–3 hrs / week</option>
+                    <option value="4-6">4–6 hrs / week</option>
+                    <option value="7-10">7–10 hrs / week</option>
+                    <option value="10+">10+ hrs / week</option>
+                </select>
+
+                <label for="linkedin">LinkedIn / Portfolio</label>
+                <input type="text" id="linkedin" name="linkedin">
+
+                <button type="submit" class="btn" id="submitBtn">Submit Application</button>
+
+                <div class="msg success" id="successMsg">✅ Your application has been submitted successfully!</div>
+                <div class="msg error" id="errorMsg">⚠️ Could not submit. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 🌗 Theme toggle
+        const themeToggle = document.getElementById("themeToggle");
+        const applyTheme = (dark) => {
+            if (dark) {
+                document.body.classList.add("dark");
+                themeToggle.textContent = "☀️ Light Mode";
+            } else {
+                document.body.classList.remove("dark");
+                themeToggle.textContent = "🌙 Dark Mode";
+            }
+        };
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) applyTheme(savedTheme === "dark");
+        themeToggle.addEventListener("click", () => {
+            const isDark = document.body.classList.toggle("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            applyTheme(isDark);
+        });
+
+        // 📤 Form submission
+        const form = document.getElementById("recruitmentForm");
+        const successMsg = document.getElementById("successMsg");
+        const errorMsg = document.getElementById("errorMsg");
+        const submitBtn = document.getElementById("submitBtn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            successMsg.style.display = "none";
+            errorMsg.style.display = "none";
+
+            const formData = new FormData(form);
+            const motivation = formData.get("motivation") || "";
+            if (motivation.length < 50) {
+                errorMsg.textContent = "⚠️ Motivation must be at least 50 characters.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            const data = Object.fromEntries(formData.entries());
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting...";
+
+            try {
+                const res = await fetch("http://localhost:3000/send-email", {
+
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    successMsg.style.display = "block";
+                    form.reset();
+                } else {
+                    throw new Error(result.message || "Failed");
+                }
+            } catch (err) {
+                errorMsg.textContent = "⚠️ Could not submit. Please try again.";
+                errorMsg.style.display = "block";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Application";
+            }
+        });
+    </script>
+</body>
+
+</html>
