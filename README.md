@@ -48,6 +48,8 @@ The form supports dark mode, real-time validation, and backend integration for e
 
 ├── README.md   &nbsp;&nbsp;&nbsp;&nbsp;    (# Documentation)
 
+├── LICENSE.txt   &nbsp;&nbsp;&nbsp;&nbsp;    (# Documentation)
+
 ## ⚡ API Endpoint (Backend Integration)
 
 ### The form sends a POST request to:
